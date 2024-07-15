@@ -1,22 +1,18 @@
+'use client'
 import Link from "next/link"
-import {Metadata} from "next"
-import {Post} from '../../types/Post'
+import {Post} from '@/types/Post'
+import {getAllPosts} from "@/services/getPosts"
+import {useEffect, useState} from "react"
+import Posts from '../../components/Posts'
 
-async function getData() {
-    const response = await fetch("https://jsonplaceholder.typicode.com/posts", {
-        next: {
-            revalidate: 60
-        }
-    })
-    return response.json()
-}
+const BlogPage = () => {
+    const [posts, setPosts] = useState<any[]>([])
+    const [loading, setLoading] = useState(true)
 
-export const metadata: Metadata = {
-    title: 'Blog | Next App'
-}
+    useEffect(() => {
+        getAllPosts().then(setPosts).finally(() => setLoading(false))
+    }, [])
 
-const BlogPage = async () => {
-    const posts = await getData()
     console.log(posts)
     return (
         <div style={{
@@ -25,14 +21,24 @@ const BlogPage = async () => {
             alignItems: 'center',
             margin: 20
         }}>
-            <h1>Blog</h1>
-            <ul style={{height: '100%'}}>
-                {posts.map((post: Post) => (
-                    <li key={post.id}>
-                        <Link href={`/blog/${post.id}`}>{post.title}</Link>
-                    </li>
-                ))}
-            </ul>
+            {loading ?
+                <h1>Loading...</h1>
+                :
+                <>
+                    <h1>Blog</h1>
+                    <ul style={{height: '100%'}}>
+                        {posts.map((post: Post) => (
+                            <Posts
+                                key={post.id}
+                                id={post.id}
+                                body={post.body}
+                                title={post.title}
+                                userId={post.userId}
+                            />
+                        ))}
+                    </ul>
+                </>
+            }
         </div>
     )
 }

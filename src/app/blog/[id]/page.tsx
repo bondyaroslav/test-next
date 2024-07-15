@@ -35,6 +35,7 @@ const Post = async ({params: {id}} : PostProps) => {
             flexDirection: 'column',
             margin: 20
         }}>
+            <h1>{post.id}</h1>
             <h1>{post.title}</h1>
             <h4>{post.body}</h4>
         </div>

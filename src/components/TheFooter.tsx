@@ -1,4 +1,3 @@
-
 const TheFooter = () => {
     return (
         <div>
