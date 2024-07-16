@@ -28,7 +28,6 @@ export async function generateMetadata({
 
 const Post = async ({params: {id}} : PostProps) => {
     const post = await getData(id)
-    console.log(post)
     return (
         <div style={{
             display: 'flex',

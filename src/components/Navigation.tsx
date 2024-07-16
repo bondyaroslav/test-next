@@ -1,6 +1,7 @@
 'use client'
 import {usePathname} from "next/navigation"
 import Link from "next/link"
+import {Button} from "@mui/material"
 
 type NavLink = {
     label: string
@@ -24,7 +25,9 @@ const Navigation = ({navLinks}: Props) => {
                         href={link.href}
                         className={isActive ? 'active' : ''}
                     >
-                        {link.label}
+                        <Button>
+                            {link.label}
+                        </Button>
                     </Link>
                 )
             })}
